@@ -261,10 +261,13 @@ client.on("messageCreate", async (message: Message) => {
                 const responseNasaImage = await axios.get(urlNasaImage);
                 const dataNasaImage = responseNasaImage.data;
 
+                const titre = dataNasaImage.title;
                 const image = dataNasaImage.url;
+                const description = dataNasaImage.explanation;
 
-
-                message.reply(image);
+                message.reply(titre);
+                user.send(image);
+                user.send(description);
 
 
             } catch (error) {
