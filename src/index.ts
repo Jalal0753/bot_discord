@@ -3,6 +3,8 @@ import process = require("process");
 import  {  Client, GatewayIntentBits, Message } from "discord.js"; 
 import cron from "node-cron";
 import axios from "axios";
+import { Groq } from "groq-sdk";
+
 
 
 
@@ -10,6 +12,7 @@ import axios from "axios";
 const USER_ID = process.env.USER_ID;
 const TOKEN = process.env.TOKEN;
 const NASA_API_KEY = process.env.NASA_API_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 if(!USER_ID){
     throw new Error("ERROR: the USER_ID is invalid");
@@ -22,6 +25,13 @@ if(!TOKEN){
 if(!NASA_API_KEY){
     throw new Error("ERROR: the NASA_API_KEY is invalid");
 }
+
+if (!GROQ_API_KEY) {
+  throw new Error("ERROR: GROQ_API_KEY manquante");
+}
+
+const groq = new Groq({apiKey: GROQ_API_KEY});
+
 
 //création du bot et obtention des permissions
 const client = new Client({
@@ -126,7 +136,6 @@ client.on("messageCreate", async (message: Message) => {
             const cityName = dataMap[0].name;
             const latitude = dataMap[0].lat;
             const longitude = dataMap[0].lon;
-
             //url
             const urlWeather = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&timezone=Europe/Brussels`;
 
@@ -276,11 +285,45 @@ client.on("messageCreate", async (message: Message) => {
             }
 
         }
+        
+        if(!message.content.startsWith("!")){
+            const aiReply = await askGroqAI(message.content);
+            await message.reply(aiReply);
+        }
     }
-     
+    
+
+        async function askGroqAI(prompt: string): Promise<string> {
+
+        try {
+            const completion = await groq.chat.completions.create({
+            model: "llama-3.1-8b-instant",
+            messages: [
+                {
+                role: "system",
+                content: "Tu es un assistant Discord utile, clair et poli. Tu réponds clairement et briévement pour que cela tienne dans 200 tokens"
+                },
+                {
+                role: "user",
+                content: prompt
+                }
+            ],
+            temperature: 0.7,
+            max_tokens: 200
+            });
+
+            return completion.choices[0]?.message?.content
+            ?? "🤖 Je n'ai pas compris.";
+
+        } catch (error: any) {
+            if (error.status === 429) {
+            return "⏳ Trop de requêtes, réessaie plus tard.";
+            }
+            console.error("Groq error:", error);
+            return "❌ Erreur IA.";
+        }
+        }
 });
-
-
 
 
 //authentification auprès des serveurs Discord
