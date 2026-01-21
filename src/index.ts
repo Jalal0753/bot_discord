@@ -291,7 +291,6 @@ client.on("messageCreate", async (message: Message) => {
             await message.reply(aiReply);
         }
     }
-    
 
         async function askGroqAI(prompt: string): Promise<string> {
 
