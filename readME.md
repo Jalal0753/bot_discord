@@ -113,15 +113,22 @@ pm2 startup
 ## Screenshots / Photos 
 
 <img width="659" height="470" alt="image" src="https://github.com/user-attachments/assets/434551c8-a7bc-4ccd-90ac-377b2caa4a7c" />
+
 *Example of the Raspberry Pi 3 B setup used to run the bot*
 
+
 <img width="1736" height="219" alt="image" src="https://github.com/user-attachments/assets/69ccc4a3-fee4-45d4-9a27-d73a251bae18" />
+
 *PM2 table showing `discord-bot` online*
 
+
 <img width="679" height="631" alt="image" src="https://github.com/user-attachments/assets/3c23d492-190f-42d1-b4ef-e316ee1d75e2" />
+
 *bot logs showing AI responses and daily weather updates (thanks to PM2)*
 
+
 <img width="434" height="760" alt="image" src="https://github.com/user-attachments/assets/4f9937c3-df7d-485c-84f1-9d0cc0fac46c" />
+
 *Example of discussion with the bot*
 
 ---
