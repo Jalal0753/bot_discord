@@ -1,6 +1,6 @@
 # Discord Weather & AI Bot 🌤️🤖
 
-This is a **personal showcase project** of a Discord bot that provides:
+This is a **personal project** of a Discord bot that provides:
 
 - **Daily weather updates**  
 - Weather queries for any city  
