@@ -232,7 +232,11 @@ client.on("messageCreate", async (message: Message) => {
 
                 try {
                     const urlMap = `https://nominatim.openstreetmap.org/search?city=${city}&format=json`;
-                    const responseMap = await axios.get(urlMap);
+                    const responseMap = await axios.get(urlMap, {
+            headers: {
+                "User-Agent": "MonBotDiscord/1.0 (jalalben0753@gmail.com)"
+            }
+            });
                     const dataMap = responseMap.data;
                     const cityName = dataMap[0].name;
                     const latitude = dataMap[0].lat;
@@ -241,7 +245,11 @@ client.on("messageCreate", async (message: Message) => {
 
                     // Prévisions sur 3 jours
                     const urlWeather = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=Europe/Brussels`;
-                    const responseWeather = await axios.get(urlWeather);
+                    const responseWeather = await axios.get(urlWeather, {
+            headers: {
+                "User-Agent": "MonBotDiscord/1.0 (jalalben0753@gmail.com)"
+            }
+            });
                     const dataWeather = responseWeather.data.daily;
 
                     function getWeatherDesc(code: number): string {
