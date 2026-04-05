@@ -19,7 +19,7 @@ if(!USER_ID){
 }
 
 if(!TOKEN){
-    throw new Error("ERROR: the USER_ID is invalid");
+    throw new Error("ERROR: the TOKEN is invalid");
 }
 
 if(!NASA_API_KEY){
@@ -133,6 +133,11 @@ client.on("messageCreate", async (message: Message) => {
             const urlMap = `https://nominatim.openstreetmap.org/search?city=${city}&format=json`;
             const responseMap = await axios.get(urlMap);
             const dataMap = responseMap.data;
+
+            if (!dataMap || dataMap.length === 0) {
+                return message.reply("❌ Ville introuvable.");
+            }
+
             const cityName = dataMap[0].name;
             const latitude = dataMap[0].lat;
             const longitude = dataMap[0].lon;
