@@ -59,7 +59,11 @@ client.once("clientReady", async () => {
 
 
             //récupère la météo de l'API open meteo
-            const response = await axios.get(url);
+            const response = await axios.get(url, {
+            headers: {
+                "User-Agent": "MonBotDiscord/1.0 (jalalben0753@gmail.com)"
+            }
+            });
             const data = response.data; //json de l'API
             const currentTemp = data.current_weather.temperature;
             const currentWind = data.current_weather.windspeed;
@@ -131,7 +135,11 @@ client.on("messageCreate", async (message: Message) => {
 
             try {
             const urlMap = `https://nominatim.openstreetmap.org/search?city=${city}&format=json`;
-            const responseMap = await axios.get(urlMap);
+            const responseMap = await axios.get(urlMap, {
+            headers: {
+                "User-Agent": "MonBotDiscord/1.0 (jalalben0753@gmail.com)"
+            }
+            });
             const dataMap = responseMap.data;
 
             if (!dataMap || dataMap.length === 0) {
@@ -146,7 +154,11 @@ client.on("messageCreate", async (message: Message) => {
 
 
             //récupère la météo de l'API open meteo
-            const responseWeather = await axios.get(urlWeather);
+            const responseWeather = await axios.get(urlWeather, {
+            headers: {
+                "User-Agent": "MonBotDiscord/1.0 (jalalben0753@gmail.com)"
+            }
+            });
             const dataWeather = responseWeather.data; //json de l'API
             const currentTemp = dataWeather.current_weather.temperature;
             const currentWind = dataWeather.current_weather.windspeed;
